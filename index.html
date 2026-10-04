@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grundmobilität Schweiz – Rechner</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--ink:#16212a;--muted:#68737d;--line:#dce3e8;--red:#c92831;--green:#18794e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:900px;margin:auto;padding:18px}.hero{background:#fff;border-bottom:1px solid var(--line)}.hero .wrap{padding-top:28px;padding-bottom:24px}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.brandmark{width:44px;height:44px;border-radius:9px;background:var(--red);display:grid;place-items:center;flex:0 0 auto}
+.brandmark svg{width:26px;height:26px;display:block}
+.brandtext{line-height:1.05}
+.brandtext strong{display:block;font-size:16px;letter-spacing:.06em}
+.brandtext span{display:block;margin-top:4px;font-size:11px;color:var(--muted);letter-spacing:.04em}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--red);text-transform:uppercase}h1{margin:6px 0 8px;font-size:clamp(28px,5vw,42px)}
+.lead{color:var(--muted);line-height:1.5;margin:0}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:15px 0}
+h2{font-size:20px;margin:0 0 12px}h3{font-size:15px;margin:16px 0 8px}
+label{display:block;font-weight:800;font-size:14px;margin:11px 0 5px}input,select{width:100%;padding:11px;border:1px solid #c8d2da;border-radius:10px;font:inherit;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.person,.vehicle{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:13px;margin-top:10px}
+.hint{font-size:12px;color:var(--muted);line-height:1.45;margin-top:5px}.result{background:#19232b;color:#fff;padding:18px;border-radius:14px}.big{font-size:35px;font-weight:900}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}.metric{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px}.metric .k{font-size:12px;color:var(--muted);font-weight:800}.metric .v{font-size:22px;font-weight:900}
+.break{margin-top:12px;border-top:1px solid var(--line)}.breakrow{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.rights{margin-top:10px;padding:12px;border-left:4px solid var(--green);background:#f1faf6;border-radius:8px;line-height:1.5;font-size:14px}
+.warn{margin-top:10px;padding:12px;border-left:4px solid var(--red);background:#fff5f5;border-radius:8px;line-height:1.45;font-size:13px}.benefit{margin-top:10px;padding:12px;border-left:4px solid var(--green);background:#f1faf6;border-radius:8px;line-height:1.5;font-size:14px}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:850;cursor:pointer}.secondary{background:#e9edf1}.btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.small{font-size:12px;color:var(--muted);line-height:1.5;margin-top:12px}
+@media(max-width:650px){.row,.metrics{grid-template-columns:1fr}.wrap{padding:12px}.breakrow{display:block}.breakrow strong{display:block;margin-top:3px}}
+@media print{.btns{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="hero"><div class="wrap">
+<div class="brand" aria-label="Grundmobilität Schweiz">
+  <div class="brandmark" aria-hidden="true">
+    <svg viewBox="0 0 100 100" role="img">
+      <rect x="39" y="16" width="22" height="68" rx="2" fill="white"></rect>
+      <rect x="16" y="39" width="68" height="22" rx="2" fill="white"></rect>
+    </svg>
+  </div>
+  <div class="brandtext">
+    <strong>GRUNDMOBILITÄT SCHWEIZ</strong>
+    <span>Modell 6.0</span>
+  </div>
+</div>
+<div class="eyebrow">Persönlicher Rechner</div>
+<h1>Was würde mich das Modell kosten?</h1>
+<p class="lead">Kernrechner nach Modell 6.0. Nur Angaben, die für Anspruch und Referenzabgaben tatsächlich benötigt werden.</p>
+</div></div>
+<main class="wrap">
+<section class="card">
+<h2>1. Haushalt</h2>
+<label>Hauptwohnsitz in der Schweiz</label><select id="resident"><option value="yes">Ja</option><option value="no">Nein</option></select>
+<div class="row"><div><label>Erwachsene</label><select id="adults"></select></div><div><label>Kinder</label><select id="children"></select></div></div>
+<div id="adultInputs"></div><div id="childInputs"></div>
+</section>
+<section class="card">
+<h2>2. Fahrzeuge</h2>
+<label>Anzahl Fahrzeuge</label><select id="vehicles"></select>
+<div class="hint">Für die Zusatzabgabe zählt nur das Leergewicht gemäss Fahrzeugausweis.</div>
+<div id="vehicleInputs"></div>
+</section>
+<section class="card">
+<h2>3. Ergebnis</h2>
+<div class="result"><div>Referenzbelastung dieser Berechnung pro Jahr</div><div class="big" id="total">CHF 0</div><div id="monthly">CHF 0 pro Monat</div></div>
+<div class="metrics"><div class="metric"><div class="k">Persönliche Mobilitätsabgabe</div><div class="v" id="personal">CHF 0</div></div><div class="metric"><div class="k">Fahrzeugabgabe</div><div class="v" id="vehicle">CHF 0</div></div><div class="metric"><div class="k">Freizeit-Rabatt Familie</div><div class="v" id="leisure">–</div></div><div class="metric"><div class="k">Max. Freizeitvergünstigung</div><div class="v" id="leisureCap">–</div></div><div class="metric"><div class="k">Äquivalenzeinkommen Familie</div><div class="v" id="equiv">–</div></div></div>
+<div class="break" id="breakdown"></div><div id="rights"></div>
+<div class="btns"><button class="secondary" onclick="window.print()">Drucken / als PDF</button><button class="secondary" onclick="resetAll()">Zurücksetzen</button></div>
+<div class="small">Modell 6.0 ist ein Projektentwurf. Die Tarife sind Referenzwerte und werden vor einer Einführung mit aktuellen amtlichen Daten kalibriert. Für die Freizeitvergünstigung verwendet der Rechner die modifizierte OECD-Äquivalenzskala. Volljährige Kinder ausserhalb einer anerkannten Grundausbildung werden als eigene wirtschaftliche Einheit betrachtet. Bei CHF 0 steuerbarem Einkommen besteht eine automatische Freizeitvergünstigung nur bei nachgewiesener anerkannter bedarfsabhängiger Unterstützung.</div>
+</section>
+</main>
+<script>
+const CHF=new Intl.NumberFormat('de-CH',{style:'currency',currency:'CHF',maximumFractionDigits:0});
+function fill(id,min,max,sel){const e=document.getElementById(id);e.innerHTML='';for(let i=min;i<=max;i++){let o=document.createElement('option');o.value=i;o.textContent=i;if(i===sel)o.selected=true;e.appendChild(o)}}
+function levy(x){x=Math.max(0,+x||0);const b=[[60000,0],[80000,.01],[120000,.015],[180000,.02],[300000,.025],[500000,.03],[Infinity,.035]];let s=0,l=0;for(const [u,r] of b){if(x>l)s+=(Math.min(x,u)-l)*r;if(x<=u)break;l=u}return s}
+function vlevy(w){w=+w||0;let s=0;if(w>2200)s+=100;if(w>2500)s+=250;if(w>2800)s+=500;return s}
+function renderAdults(){const n=+adults.value,h=adultInputs,old=[...h.querySelectorAll('.person')].map(p=>({inc:p.querySelector('.inc')?.value||'',status:p.querySelector('.status')?.value||'normal'}));h.innerHTML='<h3>Erwachsene Personen</h3>';for(let i=0;i<n;i++){const d=document.createElement('div');d.className='person';d.innerHTML=`<strong>Person ${i+1}</strong><label>Steuerbares individuelles Einkommen pro Jahr</label><input class="inc" type="number" min="0" step="1000" placeholder="z. B. 75000" value="${old[i]?.inc||''}"><label>Status</label><select class="status"><option value="normal">Erwachsene Person</option><option value="training">In anerkannter Grundausbildung, unter 25</option><option value="ahv">AHV-Referenzalter erreicht</option></select>`;h.appendChild(d);d.querySelector('.status').value=old[i]?.status||'normal'}calc()}
+function renderChildren(){
+ const n=+children.value,h=childInputs,
+ old=[...h.querySelectorAll('.person')].map(p=>({
+   age:p.querySelector('.age')?.value||'',
+   train:p.querySelector('.train')?.value||'no',
+   inc:p.querySelector('.childInc')?.value||'',
+   support:p.querySelector('.support')?.value||'no'
+ }));
+ h.innerHTML=n?'<h3>Kinder</h3>':'';
+ for(let i=0;i<n;i++){
+   const d=document.createElement('div');
+   d.className='person';
+   d.innerHTML=`<strong>Kind ${i+1}</strong>
+   <label>Alter</label>
+   <input class="age" type="number" min="0" max="99" step="1" value="${old[i]?.age||''}">
+   <label>In anerkannter nachobligatorischer oder tertiärer Grundausbildung?</label>
+   <select class="train"><option value="no">Nein</option><option value="yes">Ja</option></select>
+   <div class="separateFields" style="display:none">
+     <label>Steuerbares eigenes Einkommen pro Jahr</label>
+     <input class="childInc" type="number" min="0" step="1000" placeholder="z. B. 0 oder 45000" value="${old[i]?.inc||''}">
+     <div class="supportWrap" style="display:none">
+       <label>Anerkannte bedarfsabhängige Unterstützung / Sozialhilfe?</label>
+       <select class="support">
+         <option value="no">Nein</option>
+         <option value="yes">Ja</option>
+       </select>
+     </div>
+     <div class="hint">Ab 18 und ausserhalb der Grundausbildung wird das Kind als eigene wirtschaftliche Einheit betrachtet.</div>
+   </div>`;
+   h.appendChild(d);
+   d.querySelector('.train').value=old[i]?.train||'no';
+   d.querySelector('.support').value=old[i]?.support||'no';
+ }
+ calc();
+}
+function renderVehicles(){const n=+vehicles.value,h=vehicleInputs,old=[...h.querySelectorAll('.vehicle')].map(v=>({w:v.querySelector('.weight')?.value||'',special:v.querySelector('.special')?.value||'no'}));h.innerHTML='';for(let i=0;i<n;i++){const d=document.createElement('div');d.className='vehicle';d.innerHTML=`<strong>Fahrzeug ${i+1}</strong><label>Leergewicht gemäss Fahrzeugausweis (kg)</label><input class="weight" type="number" min="0" step="1" placeholder="z. B. 1850" value="${old[i]?.w||''}"><label>Behinderungsbedingt notwendiges Spezialfahrzeug?</label><select class="special"><option value="no">Nein</option><option value="yes">Ja</option></select><div class="hint">Normale Fahrzeuge bis 2'200 kg: keine Zusatzabgabe. Über 2'200 kg + CHF 100, über 2'500 kg zusätzlich + CHF 250, über 2'800 kg zusätzlich + CHF 500.</div>`;h.appendChild(d);d.querySelector('.special').value=old[i]?.special||'no'}calc()}
+
+function leisureRate(eq){
+  eq=+eq||0;
+  if(eq<=60000)return 50;
+  if(eq>=100000)return 0;
+  const pts=[[60000,50],[70000,40],[80000,30],[90000,20],[100000,0]];
+  for(let i=0;i<pts.length-1;i++){
+    const [x1,y1]=pts[i], [x2,y2]=pts[i+1];
+    if(eq>=x1 && eq<=x2) return y1+(y2-y1)*(eq-x1)/(x2-x1);
+  }
+  return 0;
+}
+function childData(){
+ return [...document.querySelectorAll('#childInputs .person')].map((c,i)=>{
+   const rawAge=c.querySelector('.age').value;
+   const age=rawAge===''?null:+rawAge;
+   const training=c.querySelector('.train').value==='yes';
+   const separate=age!==null && age>=18 && !training;
+   const inFamily=age!==null && !separate;
+   const rawInc=c.querySelector('.childInc')?.value ?? '';
+   const income=rawInc===''?null:(+rawInc||0);
+   const support=c.querySelector('.support')?.value==='yes';
+   return {index:i+1,card:c,age,rawAge,training,separate,inFamily,rawInc,income,support};
+ });
+}
+function familyUnit(adultIncs,kids){
+ let factor=adultIncs.length>0 ? 1 + Math.max(0,adultIncs.length-1)*0.5 : 1;
+ const income=adultIncs.reduce((a,b)=>a+b,0);
+ let cap=adultIncs.length*500;
+ kids.forEach(k=>{
+   if(!k.inFamily) return;
+   factor += k.age>=14 ? 0.5 : 0.3;
+   cap += k.age>=18 ? 500 : 250;
+ });
+ return {factor,income,cap,eq:income/factor};
+}
+function separateLeisure(k,res){
+ if(!res || !k.separate || k.income===null) return null;
+ if(k.income===0 && !k.support) return 0;
+ return leisureRate(k.income);
+}
+
+function calc(){
+ const res=resident.value==='yes';
+ const incs=[...document.querySelectorAll('.inc')].map(x=>+x.value||0);
+ const kids=childData();
+
+ // Conditional fields for adult children outside recognised basic education.
+ kids.forEach(k=>{
+   const sf=k.card.querySelector('.separateFields');
+   if(sf) sf.style.display=k.separate?'block':'none';
+   const sw=k.card.querySelector('.supportWrap');
+   if(sw) sw.style.display=(k.separate && k.income===0)?'block':'none';
+ });
+
+ // Personal mobility levy: adults plus adult children outside training with entered taxable income.
+ const pAdults=res?incs.reduce((s,x)=>s+levy(x),0):0;
+ const pKids=res?kids.reduce((s,k)=>s+(k.separate && k.income!==null ? levy(k.income) : 0),0):0;
+ const p=pAdults+pKids;
+
+ // Family leisure unit.
+ const family=familyUnit(incs,kids);
+ const familyDiscount=res?leisureRate(family.eq):0;
+
+ // Separate adult-child units.
+ const separateKids=kids.filter(k=>k.separate).map(k=>({
+   ...k,
+   discount:separateLeisure(k,res),
+   cap:500
+ }));
+
+ const vs=[...document.querySelectorAll('.vehicle')],
+       vr=vs.map(v=>v.querySelector('.special').value==='yes'?0:vlevy(v.querySelector('.weight').value)),
+       vv=res?vr.reduce((a,b)=>a+b,0):0,
+       t=p+vv;
+
+ personal.textContent=CHF.format(p);
+ vehicle.textContent=CHF.format(vv);
+ total.textContent=CHF.format(t);
+ monthly.textContent=CHF.format(t/12)+' pro Monat';
+
+ leisure.textContent=res?Math.round(familyDiscount)+' %':'–';
+ let totalCap=res&&familyDiscount>0?family.cap:0;
+ separateKids.forEach(k=>{ if(k.discount!==null && k.discount>0) totalCap+=k.cap; });
+ leisureCap.textContent=res?CHF.format(totalCap)+'/Jahr':'–';
+ equiv.textContent=res?CHF.format(family.eq):'–';
+
+ let b='';
+ incs.forEach((x,i)=>b+=`<div class="breakrow"><span>Erwachsene Person ${i+1}: persönliche Abgabe</span><strong>${CHF.format(res?levy(x):0)}</strong></div>`);
+ kids.forEach(k=>{
+   if(k.separate){
+     if(k.income===null){
+       b+=`<div class="breakrow"><span>Kind ${k.index}: eigene wirtschaftliche Einheit</span><strong>Einkommen fehlt</strong></div>`;
+     }else{
+       b+=`<div class="breakrow"><span>Kind ${k.index}: persönliche Abgabe</span><strong>${CHF.format(res?levy(k.income):0)}</strong></div>`;
+     }
+   }
+ });
+ vr.forEach((x,i)=>b+=`<div class="breakrow"><span>Fahrzeug ${i+1}: Gewichtszuschlag</span><strong>${CHF.format(res?x:0)}</strong></div>`);
+ if(res){
+   b+=`<div class="breakrow"><span>Familie: Äquivalenzfaktor</span><strong>${family.factor.toFixed(1)}</strong></div>`;
+   b+=`<div class="breakrow"><span>Familie: berücksichtigtes steuerbares Einkommen</span><strong>${CHF.format(family.income)}</strong></div>`;
+   b+=`<div class="breakrow"><span>Familie: Äquivalenzeinkommen</span><strong>${CHF.format(family.eq)}</strong></div>`;
+   b+=`<div class="breakrow"><span>Familie: Freizeit-Rabattsatz</span><strong>${Math.round(familyDiscount)} %</strong></div>`;
+   separateKids.forEach(k=>{
+     if(k.income===null){
+       b+=`<div class="breakrow"><span>Kind ${k.index}: Freizeitvergünstigung eigene Einheit</span><strong>Einkommen fehlt</strong></div>`;
+     }else if(k.income===0 && !k.support){
+       b+=`<div class="breakrow"><span>Kind ${k.index}: Freizeitvergünstigung eigene Einheit</span><strong>0 % ohne Bedürftigkeitsnachweis</strong></div>`;
+     }else{
+       b+=`<div class="breakrow"><span>Kind ${k.index}: Freizeitvergünstigung eigene Einheit</span><strong>${Math.round(k.discount)} %</strong></div>`;
+     }
+   });
+ }
+ breakdown.innerHTML=b||'<div class="breakrow"><span>Keine berechenbaren Abgaben</span><strong>CHF 0</strong></div>';
+
+ let r='';
+ if(!res){
+   r='<div class="warn"><strong>Kein automatischer Anspruch:</strong> Ohne Hauptwohnsitz in der Schweiz besteht grundsätzlich kein Anspruch auf die kostenlose Grundmobilität.</div>';
+ }else{
+   r='<div class="rights"><strong>Grundanspruch:</strong> Öffentliche Grundmobilität in der 2. Klasse ohne Fahrpreis.</div>';
+
+   if(p===0){
+     r+='<div class="benefit"><strong>Persönliche Mobilitätsabgabe: CHF 0.</strong> Die ersten CHF 60’000 steuerbares individuelles Einkommen bleiben abgabefrei.</div>';
+   }
+
+   [...document.querySelectorAll('.status')].forEach((s,i)=>{
+     if(s.value==='training') r+='<div class="rights">Person '+(i+1)+': zusätzlich 50 % Ermässigung auf den inländischen Fernverkehr in der 2. Klasse.</div>';
+     if(s.value==='ahv') r+='<div class="rights">Person '+(i+1)+': der gesamte inländische öffentliche Verkehr in der 2. Klasse ist kostenlos; touristische und internationale Angebote sind ausgenommen.</div>';
+   });
+
+   kids.forEach(k=>{
+     if(k.rawAge!==''){
+       if(k.age<6){
+         r+=`<div class="rights"><strong>Kind ${k.index}:</strong> Der gesamte inländische öffentliche Verkehr in der 2. Klasse ist kostenlos.</div>`;
+       }else if(k.training&&k.age<25){
+         r+=`<div class="rights"><strong>Kind ${k.index}:</strong> kostenlose Grundmobilität plus 50 % auf den inländischen Fernverkehr in der 2. Klasse.</div>`;
+       }else{
+         r+=`<div class="rights"><strong>Kind ${k.index}:</strong> kostenlose Grundmobilität in der 2. Klasse.</div>`;
+       }
+       if(k.separate){
+         r+=`<div class="rights"><strong>Kind ${k.index}:</strong> volljährig und nicht in anerkannter Grundausbildung. Für persönliche Abgabe und Freizeitvergünstigung wird es als eigene wirtschaftliche Einheit betrachtet.</div>`;
+       }
+     }
+   });
+
+   if(familyDiscount>0){
+     const familyPersons=incs.length + kids.filter(k=>k.inFamily).length;
+     r+=`<div class="benefit"><strong>Freizeitvergünstigung Familie:</strong> ${Math.round(familyDiscount)} % für ${familyPersons} Person${familyPersons===1?'':'en'} auf anerkannte touristische Transportleistungen. Äquivalenzeinkommen: ${CHF.format(family.eq)}. Maximal ${CHF.format(family.cap)} pro Kalenderjahr. Keine Barauszahlung.</div>`;
+   }else{
+     r+=`<div class="warn"><strong>Keine Freizeitvergünstigung für die Familie:</strong> Das Äquivalenzeinkommen beträgt ${CHF.format(family.eq)} und erreicht damit die obere Einkommensgrenze.</div>`;
+   }
+
+   separateKids.forEach(k=>{
+     if(k.income===null){
+       r+=`<div class="warn"><strong>Kind ${k.index}, eigene wirtschaftliche Einheit:</strong> Bitte das steuerbare eigene Einkommen angeben.</div>`;
+     }else if(k.income===0 && !k.support){
+       r+=`<div class="warn"><strong>Kind ${k.index}, eigene wirtschaftliche Einheit:</strong> Keine automatische Freizeitvergünstigung. Bei CHF 0 steuerbarem Einkommen ist dafür ein Nachweis über anerkannte bedarfsabhängige Unterstützung erforderlich.</div>`;
+     }else if(k.discount>0){
+       r+=`<div class="benefit"><strong>Kind ${k.index}, eigene wirtschaftliche Einheit:</strong> ${Math.round(k.discount)} % Freizeitvergünstigung. Steuerbares Einkommen: ${CHF.format(k.income)}. Maximal ${CHF.format(k.cap)} pro Kalenderjahr.</div>`;
+     }else{
+       r+=`<div class="warn"><strong>Kind ${k.index}, eigene wirtschaftliche Einheit:</strong> Keine Freizeitvergünstigung. Das steuerbare Einkommen beträgt ${CHF.format(k.income)}.</div>`;
+     }
+   });
+ }
+ rights.innerHTML=r;
+}
+function resetAll(){resident.value='yes';adults.value=1;children.value=0;vehicles.value=0;renderAdults();renderChildren();renderVehicles();calc()}
+fill('adults',1,8,1);fill('children',0,10,0);fill('vehicles',0,6,0);renderAdults();renderChildren();renderVehicles();
+adults.onchange=renderAdults;children.onchange=renderChildren;vehicles.onchange=renderVehicles;document.addEventListener('input',e=>{if(e.target.matches('input,select'))calc()});document.addEventListener('change',e=>{if(e.target.matches('input,select'))calc()});
+</script>
+</body>
+</html>
