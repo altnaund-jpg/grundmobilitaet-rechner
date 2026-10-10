@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#b71c2b">
+<meta name="description" content="Grundmobilität Schweiz 6.1: transparenter Projekt- und Kostenrechner zur progressiven Mobilitätsabgabe. Ohne Pflichtangaben zu Fernverkehrstagen.">
+<title>Grundmobilität Schweiz | Modell 6.1 – Kostenrechner</title>
+<style>
+:root{color-scheme:light;--ink:#1b2b3d;--muted:#607080;--red:#b71c2b;--red2:#911520;--navy:#172c43;--line:#dce3e9;--bg:#f4f6f8;--white:#fff;--soft:#eef5fb;--green:#e9f6ed;--gold:#fff5e1;--radius:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.56 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}a{color:#9b1a25}button,select,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #3988c9;outline-offset:3px}
+.shell{width:min(1120px,100%);margin:0 auto;padding:0 22px}.topbar{background:white;border-bottom:1px solid var(--line)}.topinner{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:76px}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}.mark{display:grid;place-items:center;background:var(--red);color:white;border-radius:12px;width:46px;height:46px;font-size:33px;font-weight:900;line-height:1}.brand strong{display:block;line-height:1.15;letter-spacing:.02em;font-size:15px}.brand small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.nav{display:flex;gap:19px;flex-wrap:wrap}.nav a{text-decoration:none;color:var(--ink);font-size:14px;font-weight:750}.nav a:hover{color:var(--red)}
+.hero{background:linear-gradient(115deg,#152b42,#24425d);color:white}.hero .shell{padding-top:47px;padding-bottom:47px}.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:800;border:1px solid #9cb1c480;background:#ffffff14;padding:5px 13px;border-radius:30px}.dot{background:#f8cf76;border-radius:50%;width:8px;height:8px}.hero h1{font-size:clamp(33px,5.5vw,57px);line-height:1.11;max-width:810px;letter-spacing:-.04em;margin:18px 0}.hero p{max-width:740px;color:#d8e5f0;font-size:18px;margin:0}.herolinks{display:flex;flex-wrap:wrap;gap:12px;margin-top:23px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:800;border-radius:11px;padding:11px 17px;text-decoration:none;border:1px solid transparent}.btn.red{background:var(--red);color:white}.btn.red:hover{background:var(--red2)}.btn.white{background:white;color:var(--ink);border-color:#ccd4dc}
+main{padding-top:25px;padding-bottom:65px}.notice{border-left:5px solid #c8942c;background:var(--gold);border-radius:12px;border-top:1px solid #f0d9a3;border-right:1px solid #f0d9a3;border-bottom:1px solid #f0d9a3;padding:14px 17px;color:#674a1a;font-size:14px;margin-bottom:24px}.notice strong{color:#52370b}.sectiontitle{margin:36px 0 18px}.sectiontitle h2{margin:0 0 5px;font-size:clamp(24px,3.7vw,31px);letter-spacing:-.02em}.sectiontitle p{margin:0;color:var(--muted)}
+.calclayout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(330px,.92fr);gap:20px;align-items:start}.formstack{display:grid;gap:16px}.card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 2px 11px #0c274707}.card h3{font-size:19px;margin:0 0 15px}.card h4{font-size:15px;margin:0 0 10px}.cardhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.chip{background:#eaf3fb;color:#244665;padding:6px 10px;border-radius:8px;font-weight:750;font-size:11px;white-space:nowrap}.field{margin:0 0 14px}.field:last-child{margin-bottom:0}.field label{display:block;font-size:14px;font-weight:750;margin-bottom:6px}.field input,.field select{width:100%;min-height:46px;padding:10px 12px;border:1px solid #bac7d1;border-radius:10px;background:white;color:var(--ink)}.field input:disabled{background:#e6edf2}.hint{font-size:12px;color:var(--muted);line-height:1.5;margin-top:6px}.twocol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.person{background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:15px;margin-top:12px}.person:first-child{margin-top:0}.person .field{margin-bottom:12px}.smallnote{font-size:13px;color:var(--muted)}.micro{font-size:12px;color:var(--muted)}.pillnote{margin-top:13px;padding:12px 13px;background:var(--soft);border-radius:10px;color:#294c69;font-size:13px}.pillnote strong{color:#1a3a57}.muted{color:var(--muted)}
+.result{position:sticky;top:18px}.result h3{margin:0 0 10px}.resultlabel{font-size:13px;color:var(--muted);font-weight:800}.big{font-size:clamp(34px,4.5vw,49px);font-weight:900;letter-spacing:-.045em;line-height:1.3;margin-top:4px}.monthly{color:var(--muted);font-size:13px}.line{display:flex;justify-content:space-between;gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}.line span{min-width:0}.line strong{text-align:right;min-width:105px}.ruleline{border:0;border-top:1px solid var(--line);margin:17px 0}.info{border-radius:11px;padding:13px 14px;font-size:13px;line-height:1.6;margin-top:15px}.info.blue{background:var(--soft);color:#224862}.info.green{background:var(--green);color:#24553a}.info.gold{background:var(--gold);color:#60481f}.details-toggle{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:white}.details-toggle summary{cursor:pointer;list-style:none;font-weight:800;padding:17px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center}.details-toggle summary::-webkit-details-marker{display:none}.details-toggle summary:after{content:'+';color:var(--red);font-size:23px;line-height:1}.details-toggle[open] summary:after{content:'−'}.details-content{padding:0 18px 19px;border-top:1px solid var(--line)}.details-content p:first-child{margin-top:15px}.optional-grid{display:grid;grid-template-columns:minmax(0,680px);gap:16px;margin-top:18px}.moremeta{margin-top:4px;font-size:13px;color:var(--muted)}.miniresult{font-size:15px;background:#f2f7fb;border-radius:10px;padding:12px 13px;margin-top:10px;min-height:50px}.miniresult strong{color:var(--ink)}.rowitem{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px}.rowitem span{color:var(--muted)}.rowitem strong{text-align:right}.actionbar{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}.minibtn{border:1px solid var(--line);background:#f0f4f7;border-radius:9px;padding:10px 13px;font-weight:750;font-size:13px}.nochildren{font-size:13px;color:var(--muted)}.hide{display:none!important}
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.rule{background:white;border:1px solid var(--line);border-radius:14px;padding:18px}.rule h3{font-size:17px;margin:0 0 7px}.rule p{font-size:14px;color:#475a6a;margin:0}.figures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.figure{border:1px solid var(--line);border-radius:13px;padding:18px;background:white}.figure strong{font-size:clamp(23px,2.6vw,30px);display:block;letter-spacing:-.03em;line-height:1.3;margin:8px 0}.figure small{color:var(--muted);font-size:12px}.figure .topline{font-size:13px;color:var(--muted);font-weight:700}.figure.dark{background:#203a54;color:white}.figure.dark .topline,.figure.dark small{color:#d6e2ed}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}th,td{padding:12px 11px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f4f7fa;font-weight:800}.num{text-align:right;white-space:nowrap}.sources{font-size:14px;padding-left:23px}.sources li{margin:10px 0}.footer{padding:25px 0;background:#e9eef3;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}.footinner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.scrollpad{scroll-margin-top:16px}
+@media(max-width:900px){.calclayout{grid-template-columns:1fr}.result{position:static}.rules{grid-template-columns:repeat(2,minmax(0,1fr))}.figures{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:590px){.shell{padding:0 15px}.topinner{padding-top:12px;padding-bottom:11px;display:block}.nav{margin-top:11px;gap:17px}.nav a{font-size:13px}.hero .shell{padding-top:28px;padding-bottom:31px}.hero h1{font-size:36px}.hero p{font-size:16px}.card{padding:17px}.twocol,.optional-grid,.rules,.figures{grid-template-columns:1fr}.sectiontitle{margin:26px 0 13px}.sectiontitle h2{font-size:24px}.chip{font-size:10px;padding:5px 7px}.result{scroll-margin-top:15px}.line strong{min-width:100px}.big{font-size:40px}}
+@media print{body{background:white}.topbar,.herolinks,.actionbar,.optional-grid{display:none!important}.hero{background:white;color:#111}.hero p{color:#333}.eyebrow{color:#333;border-color:#888}.calclayout,.rules,.figures{grid-template-columns:1fr 1fr}.result{position:static}.card,.rule,.figure{break-inside:avoid;box-shadow:none}details{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="shell topinner">
+<a class="brand" href="#start"><span class="mark" aria-hidden="true">+</span><span><strong>GRUNDMOBILITÄT SCHWEIZ</strong><small>Modell 6.1 · Finanzierungsvariante B</small></span></a>
+<nav class="nav" aria-label="Navigation"><a href="#rechner">Rechner</a><a href="#ergebnis">Ergebnis</a><a href="#regeln">Modell</a><a href="#finanzierung">Finanzierung</a><a href="#quellen">Quellen</a></nav>
+</div></header>
+<section class="hero scrollpad" id="start"><div class="shell"><span class="eyebrow"><span class="dot"></span> Politischer Projektentwurf · 10. Oktober 2026</span><h1>Mobilität für alle.<br>Fair finanziert.</h1><p>Ein Modell für die Schweiz: Grundmobilität ohne Fahrpreis, finanziert durch eine persönliche, progressive Abgabe. Erfahre, was das Modell für dich bedeuten könnte.</p><div class="herolinks"><a class="btn red" href="#rechner">Abgabe berechnen ↓</a><a class="btn white" href="#regeln">So funktioniert das Modell</a></div></div></section>
+<main class="shell">
+<div class="notice"><strong>Wichtig:</strong> Dies ist ein politischer Vorschlag, kein geltendes Schweizer Recht. Tarife, Einkommensstufen und Finanzierung sind noch nicht endgültig beschlossen. Zahlen sind als Modellannahmen oder historische Statistiken gekennzeichnet.</div>
+<section id="rechner" class="scrollpad" aria-labelledby="calcTitle"><div class="sectiontitle"><h2 id="calcTitle">Dein persönlicher Kostenrechner</h2><p>Nur Haushalt, Einkommen und Status angeben. <strong>Keine Fernverkehrstage nötig.</strong> Deine Angaben bleiben im Browser und werden nicht übertragen.</p></div>
+<div class="calclayout">
+<div class="formstack">
+<section class="card"><div class="cardhead"><h3>1. Haushalt und Wohnsitz</h3><span class="chip">Grundanspruch</span></div>
+<div class="field"><label for="resident">Hauptwohnsitz in der Schweiz?</label><select id="resident"><option value="yes">Ja</option><option value="no">Nein</option></select><div class="hint">Massgebend ist der Hauptwohnsitz, nicht die Nationalität. Touristen- und Grenzgängerregelungen sind noch zu klären.</div></div>
+<div class="twocol"><div class="field"><label for="adultCount">Erwachsene Personen</label><select id="adultCount"></select></div><div class="field"><label for="childCount">Kinder und junge Menschen</label><select id="childCount"></select></div></div>
+</section>
+<section class="card"><div class="cardhead"><h3>2. Erwachsene</h3><span class="chip">Testabgabe</span></div><p class="smallnote">Die Abgabe wird <strong>pro Person</strong> nach dem individuellen steuerbaren Jahreseinkommen modelliert, nicht nach der Anzahl ÖV-Fahrten.</p><div id="adultFields"></div><p class="micro">Bei gemeinsam veranlagten Ehepaaren ist die Aufteilung in individuelle steuerbare Einkommen eine offene methodische Frage.</p></section>
+<section class="card hide" id="childCard"><div class="cardhead"><h3>3. Kinder und Erstausbildung</h3><span class="chip">Vergünstigungen</span></div><div id="childFields"></div><div class="info blue">Die Vergünstigung in anerkannter erster Grundausbildung soll bis zum Ausbildungsabschluss gelten, ohne starre Altersgrenze. Volljährige Personen ausserhalb dieser Ausbildung gelten rechnerisch als eigene wirtschaftliche Einheit.</div></section>
+</div>
+<aside class="card result scrollpad" id="ergebnis" aria-live="polite" aria-atomic="false">
+<h3>Dein Ergebnis</h3><div class="resultlabel">Progressive Mobilitätsabgabe · pro Jahr</div><div class="big" id="levyTotal">Noch offen</div><div class="monthly" id="levyMonthly">Bitte steuerbares Einkommen angeben.</div>
+<hr class="ruleline">
+<div class="line"><span>Anspruch auf Grundmobilität</span><strong id="basicRight">–</strong></div>
+<div class="line"><span id="leisureLabel">Freizeitvergünstigung</span><strong id="leisureRate">–</strong></div>
+<div class="line"><span id="capLabel">Freizeitdeckel</span><strong id="leisureCap">–</strong></div>
+<div class="line"><span>Äquivalenzeinkommen (Testrechnung)</span><strong id="equivIncome">–</strong></div>
+<div class="info blue" id="rightsNotice">Die Modellansprüche werden hier erläutert.</div>
+<div class="info gold" id="resultNotice">Fehlende Einkommen werden nicht als CHF 0 berechnet.</div>
+<h4 style="margin:21px 0 6px">Aufschlüsselung</h4><div id="breakdown"></div>
+<div class="actionbar"><button class="minibtn" type="button" id="resetBtn">Zurücksetzen</button><button class="minibtn" type="button" id="printBtn">Drucken / PDF</button></div><p class="micro">Die persönliche Abgabe und allfällige Fernverkehrsbillette sind unterschiedliche Kosten. Eine mögliche Freizeitvergünstigung ist keine Barauszahlung.</p>
+</aside>
+</div>
+<div class="optional-grid" id="ergaenzungen">
+<details class="details-toggle" id="leisurePanel"><summary>Optional: Freizeitvergünstigung berechnen</summary><div class="details-content"><p class="smallnote">Trage die voraussichtlichen jährlichen Kosten anerkannter touristischer Transportangebote ein. Ohne Eingabe wird keine Auszahlung unterstellt.</p><div class="field"><label for="tourSpend">Anerkannte touristische Transportausgaben pro Jahr (CHF)</label><input type="number" inputmode="decimal" min="0" max="1000000" step="50" id="tourSpend" placeholder="Zum Beispiel 1000"><div class="hint">Beispielsweise bestimmte Bergbahnfahrten; welche Angebote anerkannt werden, ist noch festzulegen. Keine Vergünstigung auf Hotel, Skimiete oder Verpflegung.</div></div><div id="leisureEstimate" class="miniresult">Noch keine Ausgaben eingetragen.</div></div></details>
+
+</div>
+<div class="info green"><strong>Warum keine Fernverkehrstage?</strong> Sie verändern deine persönliche Mobilitätsabgabe nicht. Fernverkehr bleibt für Erwachsene grundsätzlich kostenpflichtig, seine endgültigen Tages- und Abotarife stehen aber noch nicht fest. Eine verlässliche Gesamtkostenrechnung ist daher noch nicht möglich.</div>
+</section>
+<section id="regeln" class="scrollpad" aria-labelledby="rulesTitle"><div class="sectiontitle"><h2 id="rulesTitle">Was du mit dem Modell erhältst</h2><p>Die wichtigsten Leistungen, verständlich getrennt von noch offenen Preisen.</p></div><div class="rules">
+<article class="rule"><h3>Grundmobilität</h3><p>Ortsbus, Tram, S-Bahn und definierte öffentlich bestellte Regionalangebote in der 2. Klasse ohne Fahrpreis für Personen mit Hauptwohnsitz in der Schweiz.</p></article>
+<article class="rule"><h3>Fernverkehr</h3><p>Der eigenwirtschaftliche Bahn-Fernverkehr bleibt für Erwachsene grundsätzlich separat kostenpflichtig. Seine Tarifhöhe und mögliche Obergrenzen sind noch offen.</p></article>
+<article class="rule"><h3>Kinder und Erstausbildung</h3><p>Unter sechs Jahren gesamter inländischer ÖV 2. Klasse ohne Fahrpreis. Ab sechs Jahren Grundmobilität ohne Fahrpreis; in anerkannter erster Grundausbildung zusätzlich 50 % auf den inländischen Fernverkehr 2. Klasse.</p></article>
+<article class="rule"><h3>Seniorinnen und Senioren</h3><p>Gleicher Anspruch auf Grundmobilität. Die persönliche Testabgabe ist einkommensabhängig. Zusätzliche Ermässigungen im Fernverkehr werden geprüft, sind aber noch nicht festgelegt.</p></article>
+<article class="rule"><h3>Persönliche Mobilitätsabgabe</h3><p>Progressive Finanzierung nach steuerbarem Einkommen. Die bisher diskutierte Testfreigrenze liegt bei CHF 60’000 je Person. Arbeitgeber- und Fahrzeugabgaben gehören nicht zu Variante B.</p></article>
+<article class="rule"><h3>Freizeitvergünstigung</h3><p>Sozial abgestufte Ermässigung auf anerkannte touristische Transportleistungen, mit begrenztem jährlichem Höchstbetrag. Keine pauschale Barauszahlung.</p></article>
+</div></section>
+<section id="tarife" class="scrollpad"><div class="sectiontitle"><h2>So wird die Testabgabe berechnet</h2><p>Keine Pauschalsteuer auf das gesamte Einkommen: Jeder Grenzsatz gilt nur für den jeweiligen Einkommensabschnitt.</p></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Individuelles steuerbares Jahreseinkommen</th><th class="num">Marginaler Testsatz</th></tr></thead><tbody>
+<tr><td>Bis CHF 60’000</td><td class="num">0 %</td></tr><tr><td>Über CHF 60’000 bis 80’000</td><td class="num">1 %</td></tr><tr><td>Über CHF 80’000 bis 120’000</td><td class="num">1,5 %</td></tr><tr><td>Über CHF 120’000 bis 180’000</td><td class="num">2 %</td></tr><tr><td>Über CHF 180’000 bis 300’000</td><td class="num">2,5 %</td></tr><tr><td>Über CHF 300’000 bis 500’000</td><td class="num">3 %</td></tr><tr><td>Über CHF 500’000</td><td class="num">3,5 %</td></tr>
+</tbody></table></div><p class="smallnote">Die Werte sind politische <strong>Testtarife</strong>, nicht beschlossene Abgaben. Statistische Steuerfälle von 2022 lassen sich nicht direkt als Zahl individuell abgabepflichtiger Personen verwenden.</p></div></section>
+<section id="finanzierung" class="scrollpad"><div class="sectiontitle"><h2>Finanzierung transparent prüfen</h2><p>Veröffentlichte Kennzahlen, bestehende Finanzierung und Szenarioannahmen dürfen nicht miteinander verwechselt werden.</p></div>
+<div class="figures"><div class="figure"><span class="topline">ÖV-Billett- und Abonnementverkäufe 2025</span><strong>CHF 7,04 Mrd.</strong><small>Alliance SwissPass. Vertriebskanäle sind nicht gleich künftig kostenloser Grundverkehr.</small></div><div class="figure"><span class="topline">Bereits bestehende RPV-Abgeltungen</span><strong>ca. CHF 2,2 Mrd.</strong><small>Bestehende öffentliche Finanzierung, nicht neu verfügbare Einnahmen.</small></div><div class="figure dark"><span class="topline">Historische Simulation der Testabgabe</span><strong>CHF 2,647 Mrd.</strong><small>Mit Steuerdaten aus 2022. Keine Einnahmenprognose für ein eingeführtes System.</small></div></div>
+<div class="card" style="margin-top:15px"><h3>Drei hypothetische Finanzierungstests</h3><div class="tablewrap"><table><thead><tr><th>Testfall</th><th class="num">Angenommener Zusatzbedarf</th><th class="num">Abweichung zur Testabgabe</th></tr></thead><tbody><tr><td>Entlastungsfall</td><td class="num">CHF 1,860 Mrd.</td><td class="num">CHF 0,787 Mrd. rechnerischer Überschuss</td></tr><tr><td>Mittlerer Test</td><td class="num">CHF 3,548 Mrd.</td><td class="num">CHF 0,901 Mrd. rechnerische Lücke</td></tr><tr><td>Belastungsfall</td><td class="num">CHF 5,335 Mrd.</td><td class="num">CHF 2,688 Mrd. rechnerische Lücke</td></tr></tbody></table></div><p class="smallnote"><strong>Diese Werte sind keine nachgewiesenen Kosten.</strong> Noch erforderlich: Leistungszuordnung bisheriger Fahrgelder einschliesslich GA, künftige Fernverkehrserträge, Mehrverkehr und Kapazitätskosten sowie eine personenbezogene Einkommensverteilung.</p><div class="info gold"><strong>Rechtliche Hürde:</strong> Artikel 81a Absatz 2 der Bundesverfassung verlangt eine angemessene Kostenbeteiligung über Nutzerpreise. Gemäss bundesgerichtlicher Rechtsprechung zu Gratis-ÖV-Initiativen kann für dieses Modell eine Verfassungsänderung notwendig sein. Die konkrete Lösung ist noch juristisch zu klären.</div></div>
+</section>
+<section id="quellen" class="scrollpad"><div class="sectiontitle"><h2>Quellen und Methodik</h2><p>Die Website ist ein unabhängiges politisches Sachprojekt und keine amtliche Schweizer Anwendung.</p></div><div class="card"><ol class="sources"><li><a target="_blank" rel="noopener noreferrer" href="https://www.allianceswisspass.ch/de/asp/News/Newsmeldung?filterCategory=4-20&amp;newsid=997">Alliance SwissPass: Billett- und Abonnementverkäufe 2025</a></li><li><a target="_blank" rel="noopener noreferrer" href="https://www.bav.admin.ch/de/bestellverfahren">Bundesamt für Verkehr: RPV-Abgeltungen und Bestellverfahren</a></li><li><a target="_blank" rel="noopener noreferrer" href="https://www.estv.admin.ch/de/faltblatt-steuerstatistik-estv">ESTV: Steuerstatistik 2022 (veröffentlicht 2025)</a></li><li><a target="_blank" rel="noopener noreferrer" href="https://www.fedlex.admin.ch/eli/cc/1999/404/de">Bundesverfassung, Artikel 81a</a></li><li><a target="_blank" rel="noopener noreferrer" href="https://www.bger.ch">Bundesgericht: Rechtsprechung zu Gratis-ÖV-Initiativen</a></li></ol><p class="smallnote">Stand: 10. Oktober 2026. Einzelne HTML-Datei mit lokal ausführbaren Berechnungen, ohne externe Programm-Bibliotheken, Cookies oder Speicherung deiner Formulareingaben. Für die amtliche Prüfung und für eine politische Vorlage sind ergänzende Daten und Rechtsgutachten notwendig.</p></div></section>
+</main><footer class="footer"><div class="shell footinner"><span>Grundmobilität Schweiz · Modell 6.1</span><span>Eigenständiges Sachprojekt · Finanzierungsvariante B · Arbeitsfassung</span></div></footer>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat('de-CH',{style:'currency',currency:'CHF',maximumFractionDigits:0}).format(n);
+const money0=n=>new Intl.NumberFormat('de-CH',{maximumFractionDigits:0}).format(n);
+const numeric=x=>x===''||x===null||x===undefined||!Number.isFinite(Number(x))||Number(x)<0?null:Number(x);
+const integer=(x,defaultValue=0)=>numeric(x)===null?defaultValue:Math.max(0,Math.floor(Number(x)));
+const personalBands=[[60000,0],[80000,.01],[120000,.015],[180000,.02],[300000,.025],[500000,.03],[Infinity,.035]];
+function levy(income){if(income===null)return null;let total=0,low=0;for(const [high,rate] of personalBands){total+=Math.max(0,Math.min(high,income)-low)*rate;low=high;if(income<=high)break;}return total;}
+function percentForLeisure(eq,annualHouseholdIncome){
+ if(eq===null||annualHouseholdIncome===null)return null;
+ // Zweistufige TEST-Logik: Bei Haushaltseinkommen ab CHF 160'000 keine Vergünstigung.
+ if(annualHouseholdIncome>=160000)return 0;
+ if(eq<=60000)return 50;if(eq<=70000)return 40;if(eq<=80000)return 30;if(eq<=90000)return 20;if(eq<=100000)return 10;return 0;
+}
+let fieldSerial=0;
+function el(tag,className,text){const x=document.createElement(tag);if(className)x.className=className;if(text!==undefined)x.textContent=text;return x;}
+function option(value,label){const x=el('option','',label);x.value=String(value);return x;}
+function makeField(labelText,type,cls,value,opts={}){
+ const box=el('div','field'),label=el('label','',labelText),id='dynamicField'+(++fieldSerial),input=document.createElement(type==='select'?'select':'input');
+ label.htmlFor=id;input.id=id;input.className=cls;
+ if(type==='select') { for(const [v,title] of opts.options||[])input.append(option(v,title));input.value=value??''; }
+ else {input.type='number';input.inputMode='decimal';input.min=String(opts.min??0);input.max=String(opts.max??100000000);input.step=String(opts.step??1);input.value=value??'';if(opts.placeholder)input.placeholder=opts.placeholder;}
+ box.append(label,input);if(opts.hint)box.append(el('div','hint',opts.hint));return box;
+}
+function personCard(title){const card=el('div','person');card.append(el('h4','',title));return card;}
+const adultStatuses=[['adult','Erwachsene Person'],['training','Erste anerkannte Grundausbildung'],['senior','AHV-Referenzalter erreicht']];
+function snapshot(id){return Array.from($(id).querySelectorAll('.person')).map(row=>{const data={};for(const input of row.querySelectorAll('input,select'))data[input.className]=input.value;return data;});}
+function renderAdults(){const olds=snapshot('adultFields'),count=integer($('adultCount').value,1),f=document.createDocumentFragment();
+ for(let i=0;i<count;i++){const old=olds[i]||{},row=personCard('Erwachsene Person '+(i+1));row.append(makeField('Individuelles steuerbares Jahreseinkommen (CHF)','number','income',old.income??'',{step:1000,placeholder:'Zum Beispiel 75000'}),makeField('Status','select','status',old.status??'adult',{options:adultStatuses}));f.append(row);} $('adultFields').replaceChildren(f);update();}
+function renderChildren(){const olds=snapshot('childFields'),count=integer($('childCount').value),f=document.createDocumentFragment();for(let i=0;i<count;i++){const old=olds[i]||{},row=personCard('Kind / junge Person '+(i+1));row.append(makeField('Alter in Jahren','number','age',old.age??'',{max:110,step:1,placeholder:'Alter'}),makeField('In anerkannter erster Grundausbildung?','select','training',old.training??'no',{options:[['no','Nein'],['yes','Ja']]}),makeField('Eigenes steuerbares Einkommen (nur ab 18, ohne Erstausbildung)','number','childIncome',old.childIncome??'',{step:1000,placeholder:'Nur falls erforderlich'}));f.append(row);} $('childFields').replaceChildren(f);$('childCard').classList.toggle('hide',count===0);update();}
+function readAdults(){return Array.from($('adultFields').querySelectorAll('.person')).map(row=>({income:numeric(row.querySelector('.income').value),status:row.querySelector('.status').value}));}
+function readChildren(){return Array.from($('childFields').querySelectorAll('.person')).map(row=>({age:numeric(row.querySelector('.age').value),training:row.querySelector('.training').value==='yes',income:numeric(row.querySelector('.childIncome').value)}));}
+function setText(id,v){$(id).textContent=v;}
+function detailLine(parent,label,value){const row=el('div','rowitem'),k=el('span','',label),v=el('strong','',value);row.append(k,v);parent.append(row);}
+function update(){
+ const resident=$('resident').value==='yes';const adults=readAdults(),children=readChildren(),missing=[];
+ const includedKids=[],separateKids=[];
+ children.forEach((kid,i)=>{if(kid.age===null||kid.age>110||!Number.isInteger(kid.age)){missing.push('Alter der jungen Person '+(i+1));return;}if(kid.age>=18&&!kid.training){separateKids.push({...kid,index:i+1});if(kid.income===null)missing.push('Einkommen der volljährigen Person '+(i+1));}else includedKids.push({...kid,index:i+1});});
+ adults.forEach((a,i)=>{if(a.income===null)missing.push('Einkommen der erwachsenen Person '+(i+1));});
+ const incomes=[...adults.map(a=>a.income),...separateKids.map(k=>k.income)];
+ const valid=resident&&missing.length===0&&incomes.every(x=>x!==null);
+ const sum=valid?incomes.reduce((s,n)=>s+levy(n),0):null;
+ const householdIncome=adults.every(a=>a.income!==null)?adults.reduce((s,a)=>s+a.income,0):null;
+ const factor=adults.length?1+(adults.length-1)*0.5+includedKids.reduce((s,c)=>s+(c.age>=14?0.5:0.3),0):null;
+ const allChildAgesKnown=children.every(k=>k.age!==null&&Number.isInteger(k.age)&&k.age<=110);
+ const equiv=householdIncome===null||factor===null||!allChildAgesKnown?null:householdIncome/factor;
+ const rate=resident?percentForLeisure(equiv,householdIncome):null;
+ // Vorläufige Deckelregel: höchstens CHF 1'500 für denselben Haushaltsverbund.
+ const cap=Math.min(1500,adults.length*500+includedKids.length*250);
+ const isSingle=adults.length===1&&includedKids.length===0;
+ setText('leisureLabel',isSingle?'Freizeitvergünstigung (Einzelperson)':'Freizeitvergünstigung (Haushalt)');
+ setText('capLabel',isSingle?'Maximaler Freizeitdeckel (Einzelperson)':'Maximaler Freizeitdeckel (Haushalt)');
+ setText('levyTotal',!resident?'Nicht anwendbar':sum===null?'Angaben fehlen':money(sum));
+ setText('levyMonthly',sum===null?(resident?'Vollständige Angaben erforderlich. Keine fehlende Angabe wird als CHF 0 gewertet.':'Besucher-, Touristen- und Grenzgängerbeiträge sind noch offen.'):'Durchschnittlich '+money(sum/12)+' pro Monat · vorläufige Testabgabe');
+ setText('basicRight',resident?'Vorgesehen':'Nicht automatisch');
+ setText('leisureRate',rate===null?'–':rate+' % (Test)');
+ setText('leisureCap',!resident?'–':money(cap)+'/Jahr (Test)');
+ setText('equivIncome',!resident||equiv===null?'–':money(equiv));
+ const rights=[];
+ if(resident){rights.push('Für dich ist Grundmobilität in der 2. Klasse ohne Fahrpreis vorgesehen.');}
+ else{rights.push('Ohne Hauptwohnsitz in der Schweiz besteht kein automatischer Grundmobilitätsanspruch.');}
+ if(resident && (adults.some(a=>a.status==='training')||children.some(k=>k.training&&k.age!==null&&k.age>=6))){rights.push('In anerkannter Erstausbildung sind zusätzlich 50 % Fernverkehrsermässigung (2. Klasse, Inland) vorgesehen.');}
+ if(resident&&children.some(k=>k.age!==null&&k.age<6)){rights.push('Unter 6 Jahren soll der gesamte inländische ÖV in der 2. Klasse ohne Fahrpreis sein.');}
+ if(resident&&adults.some(a=>a.status==='senior')){rights.push('Ein besonderer Senioren-Fernverkehrstarif ist noch in Prüfung. Es wird keine automatische Gratis-Fernfahrt angenommen.');}
+ setText('rightsNotice',rights.join(' '));
+ if(!resident)setText('resultNotice','Die Testabgabe gilt hier nur für Einwohner. Für Touristen, Grenzgänger und Besucher ist noch kein definitiver Tarif festgelegt.');
+ else if(missing.length)setText('resultNotice','Noch unvollständig: '+missing.join('; ')+'. Bitte ergänzen, damit kein irreführendes CHF-0-Ergebnis entsteht.');
+ else setText('resultNotice','Dies ist eine unverbindliche Abgabesimulation. Zusätzliche Fahrpreise im Fernverkehr sind darin nicht enthalten.');
+ const breakdown=$('breakdown');breakdown.replaceChildren();
+ adults.forEach((a,i)=>detailLine(breakdown,'Abgabe erwachsene Person '+(i+1),!resident?'–':a.income===null?'Einkommen fehlt':money(levy(a.income))));
+ children.forEach((k,i)=>{if(k.age!==null&&k.age>=18&&!k.training)detailLine(breakdown,'Abgabe eigenständige Person '+(i+1),!resident?'–':k.income===null?'Einkommen fehlt':money(levy(k.income)));});
+ if(separateKids.length)detailLine(breakdown,'Volljährige ausserhalb Erstausbildung',separateKids.length+' eigene wirtschaftliche Einheit(en); Freizeitansprüche separat abklären');
+ if(!resident)detailLine(breakdown,'Einwohner-Testabgabe','Nicht anwendbar');
+ const tour=numeric($('tourSpend').value);let benefit=null;
+ if(!resident)setText('leisureEstimate','Ohne Hauptwohnsitz keine automatische Vergünstigung.');
+ else if(rate===null)setText('leisureEstimate','Für die Berechnung der Freizeitvergünstigung fehlen Angaben zum Haushalt.');
+ else if(tour===null)setText('leisureEstimate','Noch keine anerkannten Jahresausgaben eingetragen.');
+ else{benefit=Math.min(tour*rate/100,cap);setText('leisureEstimate','Mögliche Jahresvergünstigung: '+money(benefit)+' (Satz '+rate+' %, Deckel '+money(cap)+'). Keine Barauszahlung.');}
+
+}
+function fillCount(id,min,max,defaultValue){const select=$(id);for(let n=min;n<=max;n++)select.append(option(n,n));select.value=String(defaultValue);}
+function reset(){ $('resident').value='yes';$('adultCount').value='1';$('childCount').value='0';$('tourSpend').value='';$('adultFields').replaceChildren();$('childFields').replaceChildren();renderAdults();renderChildren();$('leisurePanel').open=false;update();}
+fillCount('adultCount',1,6,1);fillCount('childCount',0,8,0);renderAdults();renderChildren();
+$('adultCount').addEventListener('change',renderAdults);$('childCount').addEventListener('change',renderChildren);
+document.addEventListener('input',e=>{if(e.target.matches('input,select'))update();});document.addEventListener('change',e=>{if(e.target.matches('input,select'))update();});
+$('resetBtn').addEventListener('click',reset);$('printBtn').addEventListener('click',()=>window.print());
+</script>
+</body>
+</html>
