@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#a60f2d">
+<meta name="description" content="Grundmobilität Schweiz 6.0: persönlicher und gemeinsamer Haushaltsrechner mit Fahrzeugabgaben, fahrpreisfreier Grundmobilität und freiwilligem Kostenvergleich.">
+<title>Grundmobilität Schweiz 6.0 – Rechner für Einzelpersonen und Haushalte</title>
+<style>
+:root{color-scheme:light;--red:#a60f2d;--red-dark:#800821;--txt:#182630;--secondary:#41505a;--line:#d3d8dd;--bg:#f4f5f7;--focus:#005da8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--txt);font:18px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+header{background:var(--red);color:white;padding:28px 14px;text-align:center}header h1{font-size:clamp(25px,5vw,35px);line-height:1.2;margin:0}header p{margin:8px 0 0}
+main{max-width:760px;margin:auto;padding:18px 13px 44px}.card{background:white;border:1px solid var(--line);border-radius:14px;padding:clamp(17px,3.5vw,27px);margin-bottom:16px}
+h2{font-size:clamp(23px,4vw,28px);margin:0 0 12px;line-height:1.3}h3{font-size:21px;margin:22px 0 9px}h4{font-size:19px;margin:16px 0 6px}p{margin:9px 0 14px}
+.pill{display:inline-block;border-radius:18px;background:#fbe6eb;color:#77102a;font-size:14px;font-weight:750;padding:5px 11px;margin-bottom:12px}
+.field{margin:18px 0;border-top:1px solid #e3e6e9;padding-top:16px}.field:first-of-type{border:0;padding-top:0}.field>label,.label,legend{font-weight:750;display:block;margin-bottom:8px;font-size:18px}fieldset{border:0;margin:0;padding:0}.choices{display:grid;gap:9px}.choice{display:flex;gap:12px;align-items:center;border:2px solid var(--line);border-radius:10px;padding:11px 12px;min-height:55px;cursor:pointer}.choice:has(input:checked){border-color:var(--red);background:#fff2f5}.choice input{width:23px;height:23px;flex:none;accent-color:var(--red)}
+input[type=number],select{display:block;width:100%;max-width:460px;min-height:56px;border:2px solid #7a838c;border-radius:9px;background:white;padding:9px 12px;font:inherit;font-size:21px;color:var(--txt)}select{font-size:18px}.smallselect{max-width:230px}
+.note{font-size:15px;color:var(--secondary)}.hint{font-size:16px;background:#f1f3f5;border-left:4px solid var(--red);padding:12px 14px;border-radius:5px;margin:13px 0}.person{background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:14px;margin:13px 0}.person .field{margin:12px 0}.person h4{margin:0 0 10px}
+.check{display:flex;align-items:center;gap:11px;cursor:pointer;min-height:46px;margin:8px 0}.check input{width:23px;height:23px;accent-color:var(--red);flex:none}
+button{display:block;width:100%;background:var(--red);border:0;border-radius:10px;color:white;padding:14px 18px;min-height:62px;font-size:20px;font-weight:750;cursor:pointer;margin-top:21px}button:hover{background:var(--red-dark)}
+:is(a,button,input,select,summary):focus-visible{outline:4px solid var(--focus);outline-offset:3px}[hidden]{display:none!important}
+.results{border:2px solid var(--red);background:#fff8fa;border-radius:12px;padding:17px;margin-top:19px;scroll-margin-top:14px}.big{font-size:clamp(31px,6vw,43px);font-weight:800;line-height:1.2;margin:4px 0}.line{display:flex;justify-content:space-between;gap:18px;border-top:1px solid #dfcbd0;padding:11px 0}.line strong{text-align:right;white-space:nowrap}.result-person{padding:12px 0;border-top:1px solid #d5cbd1}.result-person h4{margin:0 0 6px}.result-person p{margin:4px 0 10px}.error{color:#ad0030;font-weight:750}.muted{color:var(--secondary)}
+.benefit{border-top:1px solid #dfcbd0;margin-top:17px;padding-top:13px}.benefit h4{margin:0 0 8px}.benefit p{margin:7px 0}.comparison{border-top:1px solid #dfcbd0;margin-top:15px;padding-top:13px}.comparison h4{margin:0 0 8px}.difference{font-size:20px;font-weight:750}.comparison .line{border-top:0;padding:7px 0}
+summary{font-weight:750;cursor:pointer;padding:16px 2px;min-height:54px}details{border-top:1px solid var(--line)}details p{font-size:16px;color:var(--secondary)}footer{text-align:center;color:var(--secondary);font-size:14px}
+@media(max-width:510px){body{font-size:17px}.line{display:block}.line strong{display:block;text-align:left;margin-top:4px}.card{padding:18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{body{background:white}header{background:white;color:black;border-bottom:1px solid black}button{display:none}main{max-width:none}}
+</style>
+</head>
+<body>
+<header><h1>Grundmobilität Schweiz</h1><p>Einfach unterwegs. Fair finanziert.</p></header>
+<main>
+<section class="card" id="rechner">
+<span class="pill">Modell 6.0 · unverbindlicher Entwurf · Oktober 2026</span>
+<h2>Was würde ich bezahlen?</h2>
+<p>Berechnen Sie die mögliche Mobilitätsabgabe ab 2032 für sich oder Ihren Haushalt. Alle Beträge sind <strong>Testwerte</strong>, keine bestehenden Gebühren.</p>
+<form id="form" novalidate>
+<div class="field"><fieldset><legend>1. Hauptwohnsitz in der Schweiz?</legend><div class="choices">
+<label class="choice"><input type="radio" name="resident" value="yes" checked>Ja</label>
+<label class="choice"><input type="radio" name="resident" value="no">Nein</label>
+</div></fieldset></div>
+<p class="hint" id="guestNotice" hidden>Für Personen ohne Hauptwohnsitz in der Schweiz sind die Tarife noch offen. Der Rechner kann diesen Fall noch nicht berechnen.</p>
+<div id="residentForm">
+<div class="field"><fieldset><legend>2. Für wen möchten Sie rechnen?</legend><div class="choices">
+<label class="choice"><input type="radio" name="mode" value="single" checked>Für mich allein</label>
+<label class="choice"><input type="radio" name="mode" value="family">Für meinen Haushalt</label>
+</div></fieldset></div>
+<div id="familyControls" hidden>
+<div class="field"><label for="adultCount">Wie viele Erwachsene ab 18 Jahren leben im Haushalt?</label><select id="adultCount" class="smallselect">
+<option value="1">1 erwachsene Person</option><option value="2" selected>2 Erwachsene</option><option value="3">3 Erwachsene</option><option value="4">4 Erwachsene</option><option value="5">5 Erwachsene</option><option value="6">6 Erwachsene</option><option value="7">7 Erwachsene</option><option value="8">8 Erwachsene</option>
+</select><p class="note"><strong>Auch erwachsene Kinder mitzählen.</strong> Beispiel: Zwei Eltern und eine 21-jährige Tochter sind drei Erwachsene, selbst wenn die Tochter ihre Ausbildung abgeschlossen hat. Jede Person wird einzeln berechnet. Bei getrennten Haushalten bitte getrennt rechnen.</p></div>
+<div class="field"><label for="childCount">Wie viele Kinder unter 18 Jahren leben im Haushalt?</label><select id="childCount" class="smallselect"><option value="0" selected>Keine</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select><p class="note">Hier nur Personen unter 18 Jahren eintragen. Wer 18 oder älter ist, zählt oben als erwachsene Person, auch während einer Erstausbildung. Niemanden doppelt eingeben.</p></div>
+<div id="childFields"></div>
+</div>
+<p class="hint">Geplanter Start 2032: Für jede volljährige Person zählt das <strong>eigene steuerbare Jahreseinkommen</strong>. Auch erwachsene Kinder und Ehepaare werden einzeln berechnet. Falls die Steuerveranlagung 2032 noch nicht vorliegt, können Sie schätzen. Die gesetzliche Abrechnung ist noch offen.</p>
+<div id="adultsFields"></div>
+<div class="field"><fieldset><legend id="vehicleLegend">Haben Sie Personenwagen, Lieferwagen oder Wohnmobile mit mehr als 2'200 kg Leergewicht?</legend><div class="choices">
+<label class="choice"><input type="radio" name="heavy" value="no" checked>Nein</label>
+<label class="choice"><input type="radio" name="heavy" value="yes">Ja</label>
+</div></fieldset></div>
+<div id="vehicleBlock" hidden class="person"><label for="vehicleCount" class="label">Wie viele dieser Fahrzeuge sind auf die eingetragenen Personen eingelöst?</label><select id="vehicleCount" class="smallselect"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select><p class="note">Jedes Fahrzeug nur einmal erfassen. Entscheidend ist das Leergewicht im Fahrzeugausweis. Firmenfahrzeuge, die nicht auf eine hier eingetragene Person eingelöst sind, gehören nicht in die Haushaltsrechnung.</p><div id="vehicleFields"></div></div>
+</div>
+<div class="field"><label for="currentRegionalCost">Wie viel geben Sie oder Ihre Familie heute jährlich für Bus, Tram, S-Bahn und Regionalzüge aus? (freiwillig)</label>
+<input id="currentRegionalCost" type="number" inputmode="numeric" min="0" max="100000000" step="1" placeholder="Zum Beispiel 1200" aria-describedby="currentRegionalHelp">
+<p id="currentRegionalHelp" class="note">Nur Ihre bisherigen Ausgaben für die künftig fahrpreisfreie Grundmobilität, insgesamt für alle erfassten Personen. Fernverkehr (IC/IR), 1. Klasse und touristische Fahrten nicht mitzählen. Bei einem GA oder Kombiabo nur einen nachvollziehbar zuordenbaren Anteil eintragen, nicht pauschal den ganzen Abopreis. Wenn Sie es nicht wissen, Feld leer lassen.</p></div>
+<p id="error" role="alert" class="error" hidden></p>
+<button type="submit">Beträge berechnen</button>
+</form>
+<section class="results" id="results" hidden tabindex="-1" aria-labelledby="resultsTitle">
+<h3 id="resultsTitle">Ihr Ergebnis</h3><p class="note">Testberechnung für die eingegebenen Personen. Keine heute fällige Abgabe.</p>
+<p id="total" class="big">–</p><p id="monthTotal" class="note"></p>
+<div class="line"><span>Persönliche Mobilitätsabgaben zusammen</span><strong id="allIncomeLevy">–</strong></div>
+<div class="line"><span>Fahrzeugabgaben zusammen</span><strong id="allCarLevy">–</strong></div>
+<div id="wohnmobilCompare" class="hint" hidden><strong>Wohnmobile: Tarifentscheid noch offen</strong><p id="wohnmobilPrices"></p><p class="note">Der reduzierte Wohnmobiltarif ist nur eine Prüfvariante. Der endgültige Betrag wurde nicht beschlossen.</p></div>
+<div class="benefit" aria-label="Ihre Leistungen im Modell">
+<h4>Was erhalten Sie dafür?</h4>
+<p><strong id="benefitPeople">Alle erfassten Personen</strong> können Bus, Tram, S-Bahn und anerkannte öffentlich bestellte Regionalzüge in der <strong>2. Klasse ohne zusätzlichen Fahrpreis</strong> nutzen. Das gilt auch für die Erwachsenen.</p>
+<p class="note">Keine zusätzlichen Billette für diese Grundmobilität. Die oben ausgewiesenen Mobilitäts- und Fahrzeugabgaben bleiben trotzdem bestehen. IC/IR, 1. Klasse, touristische und internationale Angebote sind nicht pauschal enthalten.</p>
+</div>
+<div id="currentComparison" class="comparison" hidden>
+<h4>Vergleich mit Ihren heutigen ÖV-Ausgaben</h4>
+<div class="line"><span>Heute für die berücksichtigte Grundmobilität</span><strong id="currentRegionalResult">–</strong></div>
+<div class="line"><span>Neue Abgaben im Test</span><strong id="comparisonNew">–</strong></div>
+<p class="difference" id="comparisonDifference"></p>
+<p class="note">Unverbindlicher Vergleich nur mit dem von Ihnen eingetragenen Betrag. Er enthält keine heutigen und künftigen Fernverkehrs- oder sonstigen Reisekosten, keine bereits bestehenden Fahrzeugsteuern und keine künftigen Preis- oder Nutzungsänderungen. Keine garantierte Ersparnis.</p>
+</div>
+<div id="adultResults"></div>
+<div id="childResults" hidden><h3>Kinder unter 18 Jahren</h3><div id="childRows"></div></div>
+<p class="hint" id="familyNotice" hidden>Die Vergünstigung gehört dem Kind und wird nicht an die Eltern ausgezahlt. Kinder unter 18 werden in dieser Berechnung nur einmal gezählt. Volljährige Kinder gehören zu den Erwachsenen; die tatsächliche Familienzugehörigkeit wird nicht geprüft.</p>
+<p class="note">Grundmobilität: Bus, Tram, S-Bahn und anerkannter Regionalverkehr in der 2. Klasse ohne zusätzlichen Fahrpreis. Fernverkehr kostet separat. Familien-Freizeitbonus und touristische Bergbahnen sind nicht in der Summe enthalten.</p>
+</section>
+</section>
+<section class="card">
+<h2>Was ist vorgesehen?</h2>
+<details><summary>Welche Fahrten sind für Erwachsene und Kinder ohne Fahrpreis?</summary><p>Personen mit Hauptwohnsitz in der Schweiz sollen Bus, Tram, S-Bahn und anerkannte öffentlich bestellte Regionalzüge in der 2. Klasse ohne zusätzliche Billette nutzen können, unabhängig von Alter oder Einkommen. Das ist nicht gleichbedeutend mit einem Gratis-GA: eigenwirtschaftlicher Fernverkehr wie IC und IR, die 1. Klasse sowie touristische Angebote bleiben separat kostenpflichtig. Die persönlichen Mobilitätsabgaben und allfällige Fahrzeugabgaben fallen unabhängig von der Nutzung an.</p></details>
+<details><summary>Wie funktioniert der freiwillige Kostenvergleich?</summary><p>Sie können Ihre heutigen jährlichen Ausgaben nur für die künftig fahrpreisfreie Grundmobilität eingeben. Der Rechner vergleicht sie mit den jährlichen persönlichen und Fahrzeugabgaben des Entwurfs. Lassen Sie das Feld leer, wird kein Vergleich angezeigt. GA-Preise mit Fernverkehrsanteilen dürfen nicht unbesehen als heutige Grundmobilitätskosten verwendet werden. Der Vergleich sagt nichts über alle Reisekosten oder eine garantierte Ersparnis aus.</p></details>
+<details><summary>Wie berechnet sich die persönliche Abgabe?</summary><p>Die Abgabe wird im Arbeitsmodell für jede volljährige Person, einschliesslich erwachsener Kinder im Haushalt, nach dem eigenen steuerbaren Jahreseinkommen berechnet: 0 % bis CHF 60'000, danach progressive Test-Grenzsätze von 1 %, 1,5 %, 2 %, 2,5 %, 3 % und 3,5 %. Auch bei Ehepaaren wird kein gemeinsames Einkommen pauschal halbiert. Der Rechner verwendet individuelle Einkommen ab 2032. Endgültige Abgabesätze und die massgebende Steuerdefinition sind noch offen.</p></details>
+<details><summary>Wie rechnen Ehepaare ab 2032?</summary><p>Mit der Individualbesteuerung soll jeder Ehepartner eine eigene Steuerveranlagung erhalten. Daher erfassen Sie zwei individuelle steuerbare Einkommen. Sind definitive Veranlagungen noch nicht verfügbar, können Sie für die Testrechnung schätzen. Die gesetzliche Abrechnungsregel bleibt offen.</p></details>
+<details><summary>Wie funktioniert die Fahrzeugabgabe?</summary><p>Personenwagen und privat genutzte Lieferwagen: bis 2'200 kg CHF 0; 2'201–2'500 kg CHF 100; 2'501–2'800 kg CHF 350; darüber CHF 850 jährlich. Für überwiegend geschäftlich genutzte Lieferwagen (mehr als 50 %) ist eine Befreiung als Arbeitsregel vorgesehen; die Nachweisregeln sind noch offen. Bei Wohnmobilen vergleichen wir dieselbe Staffel mit einem reduzierten Testtarif von CHF 100 / 200 / 350. Elektroautos werden bei gleichem Fahrzeugtyp gleich behandelt. Ausnahmen für medizinisch notwendige Spezialfahrzeuge sind rechtlich ungeklärt.</p></details>
+<details><summary>Wie erhalten AHV-Beziehende den Fernverkehrsrabatt?</summary><p>Im Test 50 % bis CHF 50'000 individuell steuerbarem Einkommen; dann gleitend weniger bis 0 % ab CHF 80'000. Die gleichen Prozentwerte vermindern Fahrpreise und die vorläufigen Höchstpreise von CHF 40/Tag, CHF 320/Monat, CHF 3'000/Jahr. Dies ist noch keine finanzierte Regel.</p></details>
+<details><summary>Was gilt für erwachsene Kinder im Haushalt?</summary><p>Auch eine 21-jährige Person mit abgeschlossener Ausbildung wird als erwachsene Person mit eigenem steuerbarem Einkommen erfasst. Bis CHF 60'000 fällt nach der Teststaffel keine persönliche Abgabe an; darüber wird sie progressiv berechnet. Die fahrpreisfreie Grundmobilität gilt weiterhin. Ohne anerkannte Erstausbildung besteht kein Ausbildungsrabatt auf Fernverkehr. Wer mindestens 18 Jahre alt und noch in einer anerkannten Erstausbildung ist, wird ebenfalls als erwachsene Person erfasst und kann die Erstausbildung angeben.</p></details>
+<details><summary>Welche Vorteile erhalten Kinder?</summary><p>Unter 6 Jahren ist der inländische ÖV in der 2. Klasse im Modell kostenlos. Kinder von 6 bis 15 haben kostenlose Grundmobilität und 50 % Fernverkehrsrabatt, bei Fahrt mit einem Elternteil nach dem Entwurf kostenlose Mitfahrt. Während einer anerkannten ersten Ausbildung gilt ein Fernverkehrsrabatt von 50 % ohne feste obere Altersgrenze. Offene Detailfälle werden noch geprüft.</p></details>
+<details><summary>Woher weiss das offizielle System, welches Kind zu wem gehört?</summary><p>Diese öffentliche Testseite prüft keine Identitäten und braucht weder Namen noch AHV-Nummern. Eine spätere amtliche Zuordnung müsste rechtlich geregelt und datenschutzkonform sein. Bei getrennten Eltern ist die verbindliche Aufteilung von Ansprüchen noch offen; die Eingabe hier erzeugt keine amtliche Berechtigung.</p></details>
+<details><summary>Ist die Finanzierung gesichert?</summary><p>Nein. Die Einnahmen aus der Fahrzeugabgabe und der progressiven Einkommensabgabe werden geprüft. Die nationalen Zusatzkosten der Grundmobilität, Einnahmen aus dem Fernverkehr und AHV-Rabattfolgen sind noch nicht abschliessend bestimmt. Die grundlegende Rechtslage braucht ebenfalls eine vertiefte Prüfung.</p></details>
+</section>
+<footer>Grundmobilität Schweiz 6.0 · Haushaltsrechner auch für erwachsene Kinder, Prüffassung Oktober 2026. Keine amtlichen Beiträge. Eingaben werden nur im Browser verarbeitet, nicht übertragen oder gespeichert.</footer>
+</main>
+<script>
+'use strict';
+const STUFEN=[[60000,0],[80000,.01],[120000,.015],[180000,.02],[300000,.025],[500000,.03],[Infinity,.035]];
+const FERNTARIF={tag:40,monat:320,jahr:3000};
+const CHF=new Intl.NumberFormat('de-CH',{style:'currency',currency:'CHF',minimumFractionDigits:0,maximumFractionDigits:2});
+const PCT=new Intl.NumberFormat('de-CH',{style:'percent',minimumFractionDigits:0,maximumFractionDigits:1});
+const $=id=>document.getElementById(id);
+const choice=name=>document.querySelector('input[name="'+name+'"]:checked')?.value;
+const show=(id,v)=>$(id).hidden=!v;
+const make=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
+function abgabe(v){if(!Number.isFinite(v)||v<0)return NaN;let sum=0,start=0;for(const [end,rate] of STUFEN){sum+=Math.max(0,Math.min(v,end)-start)*rate;if(v<=end)break;start=end}return Math.round(sum*100)/100}
+function vehicleFee(kg){return kg<=2200?0:kg<=2500?100:kg<=2800?350:850}
+function wohnmobilReducedFee(kg){return kg<=2200?0:kg<=2500?100:kg<=2800?200:350}
+function seniorRate(v){return v<=50000?.5:v>=80000?0:.5*(80000-v)/30000}
+function money(v){return CHF.format(Math.round(v*100)/100)}
+function validMoney(inp,caption){const v=Number(inp.value);if(inp.value.trim()===''||!Number.isSafeInteger(v)||v<0||v>100000000){fail('Bitte '+caption+' als ganze, nichtnegative Frankenzahl eingeben.',inp);return null}return v}
+function adultN(){return choice('mode')==='single'?1:Number($('adultCount').value)}
+function isFamily(){return choice('mode')==='family'}
+function childN(){return isFamily()?Number($('childCount').value):0}
+function changeResults(){show('results',false);show('error',false)}
+function adultBlocks(){
+ const box=$('adultsFields'),old=[...box.querySelectorAll('.adult')].map(el=>({value:el.querySelector('input[type=number]')?.value||'',ahv:el.querySelector('.adultAhv')?.checked||false,training:el.querySelector('.adultTraining')?.checked||false}));
+ box.replaceChildren();let n=adultN();for(let i=0;i<n;i++){
+ const b=make('div',undefined,'person adult');const heading=make('h4',n===1?'Erwachsene Person':'Erwachsene Person '+(i+1));b.append(heading);
+ const inc=make('div',undefined,'field');inc.className='field incomeLine';const lab=make('label',n===1?'Steuerbares Jahreseinkommen (CHF)':'Steuerbares Jahreseinkommen Person '+(i+1)+' (CHF)');const input=make('input');input.type='number';input.id='income'+i;input.inputMode='numeric';input.min='0';input.max='100000000';input.step='1';input.placeholder=i===0?'Zum Beispiel 70000':'Zum Beispiel 70000';lab.htmlFor=input.id;inc.append(lab,input);b.append(inc);
+ const chk=make('label',undefined,'check');const ahv=make('input');ahv.type='checkbox';ahv.id='ahv'+i;ahv.className='adultAhv';chk.append(ahv,make('span','Im AHV-Alter'));b.append(chk);
+ const tr=make('label',undefined,'check');const training=make('input');training.type='checkbox';training.id='adultTraining'+i;training.className='adultTraining';tr.append(training,make('span','In anerkannter Erstausbildung (noch nicht abgeschlossen)'));b.append(tr);
+ if(old[i]){input.value=old[i].value;ahv.checked=old[i].ahv;training.checked=old[i].training}box.append(b)
+ }
+
+}
+function childBlocks(){
+ const box=$('childFields'),old=[...box.querySelectorAll('.child')].map(el=>({age:el.querySelector('input[type=number]')?.value||'',training:el.querySelector('input[type=checkbox]')?.checked||false}));box.replaceChildren();
+ for(let i=0;i<childN();i++){
+ const b=make('div',undefined,'person child');b.append(make('h4','Kind '+(i+1)+' (unter 18 Jahren)'));
+ const l=make('label','Alter in Jahren','label');const age=make('input');age.type='number';age.inputMode='numeric';age.min='0';age.max='17';age.step='1';age.placeholder='Zum Beispiel 10';age.id='age'+i;l.htmlFor=age.id;b.append(l,age);
+ const cl=make('label',undefined,'check');const c=make('input');c.type='checkbox';c.id='study'+i;cl.append(c,make('span','In anerkannter Erstausbildung'));b.append(cl);const updateTraining=()=>{cl.hidden=(age.value.trim()===''||Number(age.value)<16);if(cl.hidden)c.checked=false};age.addEventListener('input',updateTraining);
+if(old[i]){age.value=old[i].age;c.checked=old[i].training}updateTraining();box.append(b);
+ }
+}
+function vehicleBlocks(){
+ const box=$('vehicleFields'),old=[...box.querySelectorAll('.car')].map(el=>({
+  kg:el.querySelector('.vehicleWeight')?.value||'',
+  type:el.querySelector('.vehicleType')?.value||'car',
+  business:el.querySelector('.vehicleBusiness')?.value||'no',
+  owner:el.querySelector('.vehicleOwner')?.value||'0',
+  exception:el.querySelector('.vehicleSpecial')?.checked||false
+ }));
+ box.replaceChildren();
+ for(let i=0;i<Number($('vehicleCount').value);i++){
+  const b=make('div',undefined,'person car');b.append(make('h4','Fahrzeug '+(i+1)));
+  const tyWrap=make('div',undefined,'field');const tyLabel=make('label','Fahrzeugart','label');const type=make('select');type.id='type'+i;type.className='vehicleType';tyLabel.htmlFor=type.id;
+  for(const [v,caption] of [['car','Personenwagen'],['van','Lieferwagen'],['camper','Wohnmobil (Tarif noch offen)']]){const o=make('option',caption);o.value=v;type.append(o)}tyWrap.append(tyLabel,type);b.append(tyWrap);
+  const kgWrap=make('div',undefined,'field');const lab=make('label','Leergewicht in kg','label');const kg=make('input');kg.type='number';kg.className='vehicleWeight';kg.inputMode='numeric';kg.id='car'+i;kg.min='2201';kg.max='10000';kg.step='1';kg.placeholder='Zum Beispiel 2520';lab.htmlFor=kg.id;kgWrap.append(lab,kg);b.append(kgWrap);
+  const businessWrap=make('div',undefined,'field vanBusinessWrap');const businessLabel=make('label','Wird der Lieferwagen zu mehr als 50 % geschäftlich genutzt?','label');const business=make('select');business.id='business'+i;business.className='vehicleBusiness';businessLabel.htmlFor=business.id;
+  for(const [v,caption] of [['no','Nein / überwiegend privat'],['yes','Ja / überwiegend geschäftlich']]){const o=make('option',caption);o.value=v;business.append(o)}businessWrap.append(businessLabel,business,make('p','Bei überwiegend geschäftlicher Nutzung gilt im Arbeitsmodell eine Befreiung. Ein Nachweis wäre später erforderlich.','note'));b.append(businessWrap);
+  const ownwrap=make('div',undefined,'field ownerWrap');const ownlab=make('label','Auf wen ist das Fahrzeug eingelöst?','label');const owner=make('select');owner.id='owner'+i;owner.className='vehicleOwner';ownlab.htmlFor=owner.id;
+  for(let j=0;j<adultN();j++){const opt=make('option',adultN()===1?'Erwachsene Person':'Person '+(j+1));opt.value=String(j);owner.append(opt)}ownwrap.append(ownlab,owner);ownwrap.hidden=adultN()===1;b.append(ownwrap);
+  const label=make('label',undefined,'check');const ex=make('input');ex.type='checkbox';ex.className='vehicleSpecial';label.append(ex,make('span','Medizinisch notwendiges Spezialfahrzeug (Ausnahme ungeklärt)'));b.append(label);
+  if(old[i]){type.value=old[i].type;kg.value=old[i].kg;business.value=old[i].business;owner.value=old[i].owner;if(owner.selectedIndex<0)owner.value='0';ex.checked=old[i].exception}
+  const updateType=()=>{businessWrap.hidden=type.value!=='van';changeResults()};type.addEventListener('change',updateType);updateType();box.append(b)
+ }
+}
+function refresh(){
+ const resident=choice('resident')==='yes',fam=isFamily();
+ show('residentForm',resident);show('guestNotice',!resident);show('familyControls',fam);
+ show('vehicleBlock',resident&&choice('heavy')==='yes');
+ adultBlocks();if(fam)childBlocks();else $('childFields').replaceChildren();vehicleBlocks();changeResults()
+}
+function fail(msg,focus){$('error').textContent=msg;show('error',true);show('results',false);if(focus)focus.focus()}
+function resultRow(label,value){const r=make('div',undefined,'line');r.append(make('span',label),make('strong',value));return r}
+function calc(ev){ev.preventDefault();changeResults();if(choice('resident')!=='yes'){fail('Die Tarife für Personen ohne Wohnsitz in der Schweiz sind noch offen.');return}
+ const n=adultN(),people=[];
+ for(let i=0;i<n;i++){
+  const v=validMoney($('income'+i),'das steuerbare Jahreseinkommen von Person '+(i+1));
+  if(v===null)return;
+  people.push({income:v,levy:abgabe(v),ahv:$('ahv'+i).checked,training:$('adultTraining'+i).checked,carReduced:0,carNormal:0,unknown:0});
+ }
+ let wohnmobilCount=0,freedVans=0;
+ if(choice('heavy')==='yes')for(const [i,b] of [...$('vehicleFields').querySelectorAll('.car')].entries()){
+  const f=b.querySelector('.vehicleWeight'),kg=Number(f.value);
+  if(f.value.trim()===''||!Number.isSafeInteger(kg)||kg<=2200||kg>10000){fail('Bitte ein gültiges Leergewicht über 2’200 kg für Fahrzeug '+(i+1)+' eingeben.',f);return}
+  const owner=Number(b.querySelector('.vehicleOwner').value);
+  if(!Number.isInteger(owner)||owner<0||owner>=n){fail('Ungültiger Fahrzeughalter.');return}
+  if(b.querySelector('.vehicleSpecial').checked){people[owner].unknown++;continue}
+  const type=b.querySelector('.vehicleType').value;
+  if(type==='van'&&b.querySelector('.vehicleBusiness').value==='yes'){freedVans++;continue}
+  const normal=vehicleFee(kg),reduced=type==='camper'?wohnmobilReducedFee(kg):normal;
+  if(type==='camper')wohnmobilCount++;
+  people[owner].carReduced+=reduced;people[owner].carNormal+=normal;
+ }
+ const kids=[];if(isFamily())for(const [i,b] of [...$('childFields').querySelectorAll('.child')].entries()){
+ const ageField=b.querySelector('input[type=number]');const age=Number(ageField.value);if(ageField.value.trim()===''||!Number.isInteger(age)||age<0||age>17){fail('Bitte ein Alter zwischen 0 und 17 Jahren für Kind '+(i+1)+' angeben. Volljährige Kinder oben als erwachsene Personen mitzählen.',ageField);return}
+ const first=b.querySelector('input[type=checkbox]').checked;
+ let desc=age<6?'Gesamter inländischer ÖV 2. Klasse ohne Fahrpreis.':age<16?'Grundmobilität ohne Fahrpreis. Fernverkehr: allein 50 % Rabatt, in Begleitung eines Elternteils kostenlose Mitfahrt (Prüfregel).':first?'Grundmobilität ohne Fahrpreis. Anerkannte Erstausbildung: 50 % Fernverkehrsrabatt. Persönliche Abgabe bei eigenem Einkommen separat prüfen.':'Grundmobilität ohne zusätzlichen Fahrpreis. Ohne anerkannte Erstausbildung kein besonderer Fernverkehrsrabatt.';
+ kids.push({age,desc});
+ }
+ const currentInput=$('currentRegionalCost');
+ let currentRegional=null;
+ if(currentInput.value.trim()!==''){
+  const v=validMoney(currentInput,'Ihre heutigen jährlichen Ausgaben für die Grundmobilität');
+  if(v===null)return;
+  currentRegional=v;
+ }
+ const taxable=people.reduce((s,p)=>s+p.levy,0),carReduced=people.reduce((s,p)=>s+p.carReduced,0),carNormal=people.reduce((s,p)=>s+p.carNormal,0),unknown=people.reduce((s,p)=>s+p.unknown,0);
+ const totalReduced=taxable+carReduced,totalNormal=taxable+carNormal,hasCamper=wohnmobilCount>0,hasDifferentRates=carReduced!==carNormal;
+ $('total').textContent=(unknown?'Mindestens ':'')+(hasDifferentRates?money(totalReduced)+' bis '+money(totalNormal):money(totalReduced))+' pro Jahr';
+ $('monthTotal').textContent=unknown?'Die Summe ist wegen ungeklärter Fahrzeugausnahmen nicht vollständig.':hasDifferentRates?'Je nach Wohnmobiltarif rechnerisch '+money(totalReduced/12)+' bis '+money(totalNormal/12)+' pro Monat. Fernverkehr separat.':'Entspricht rechnerisch '+money(totalReduced/12)+' pro Monat. Fernverkehrsbillette sind nicht enthalten.';
+ $('allIncomeLevy').textContent=money(taxable);
+ $('allCarLevy').textContent=(hasDifferentRates?money(carReduced)+' bis '+money(carNormal):money(carReduced))+(unknown?' + ungeklärte Ausnahmen':'');
+ show('wohnmobilCompare',hasCamper);
+ if(hasCamper)$('wohnmobilPrices').textContent=hasDifferentRates?'Mit reduziertem Wohnmobiltarif: '+money(totalReduced)+'/Jahr. Mit normalem Gewichtstarif: '+money(totalNormal)+'/Jahr. Beide Werte enthalten die persönliche Mobilitätsabgabe.':'In dieser Gewichtsklasse beträgt die Abgabe in beiden Wohnmobil-Varianten gleich viel: '+money(totalReduced)+'/Jahr inklusive persönlicher Mobilitätsabgabe.';
+ const eligibleCount=n+kids.length;
+ $('benefitPeople').textContent=eligibleCount===1?'Sie':eligibleCount===2?'Beide erfassten Personen':'Alle '+eligibleCount+' erfassten Personen';
+ show('currentComparison',currentRegional!==null);
+ if(currentRegional!==null){
+  $('currentRegionalResult').textContent=money(currentRegional)+' pro Jahr';
+  $('comparisonNew').textContent=(hasDifferentRates?money(totalReduced)+' bis '+money(totalNormal):money(totalReduced))+' pro Jahr';
+  const low=currentRegional-totalNormal,high=currentRegional-totalReduced;
+  let summary;
+  if(unknown){summary='Ein verlässlicher Vergleich ist wegen ungeklärter Fahrzeugausnahmen nicht möglich.'}
+  else if(low===0&&high===0){summary='Rechnerisch gleich hohe jährliche Ausgaben.'}
+  else if(low>=0){summary='Rechnerisch '+(low===high?money(low):money(low)+' bis '+money(high))+' weniger pro Jahr als heute.'}
+  else if(high<=0){summary='Rechnerisch '+(low===high?money(-high):money(-high)+' bis '+money(-low))+' mehr pro Jahr als heute.'}
+  else{summary='Je nach Wohnmobiltarif: zwischen '+money(-low)+' mehr und '+money(high)+' weniger pro Jahr.'}
+  $('comparisonDifference').textContent=summary;
+ }
+
+ const adultOut=$('adultResults');adultOut.replaceChildren();for(let i=0;i<n;i++){
+ const p=people[i],box=make('div',undefined,'result-person');box.append(make('h4',n===1?'Erwachsene Person':'Erwachsene Person '+(i+1)));
+ box.append(resultRow('Steuerbares Einkommen',money(p.income)));
+ box.append(resultRow('Persönliche Abgabe / Jahr',money(p.levy)));
+  if(p.carReduced!==p.carNormal){
+   box.append(resultRow('Fahrzeugabgabe reduziert (Wohnmobil-Test)',money(p.carReduced)));
+   box.append(resultRow('Fahrzeugabgabe normal (Alternative)',money(p.carNormal)));
+  } else box.append(resultRow('Fahrzeugabgabe / Jahr',money(p.carReduced)+(p.unknown?' + offen':'')));
+  if(p.unknown&&p.carReduced!==p.carNormal)box.append(make('p','Weitere Fahrzeugausnahme noch ungeklärt.','note'));
+ if(p.ahv){let r=seniorRate(p.income);box.append(resultRow('AHV-Fernverkehrsrabatt',PCT.format(r)));box.append(make('p','Fernverkehr maximal: '+money(FERNTARIF.tag*(1-r))+' pro Tag, '+money(FERNTARIF.monat*(1-r))+' pro Monat, '+money(FERNTARIF.jahr*(1-r))+' pro Jahr.','note'))}
+ else if(p.training)box.append(make('p','Erstausbildung: 50 % Rabatt im Fernverkehr 2. Klasse (Prüfregel, Höchstbeträge noch offen). Die persönliche Abgabe wird dennoch nach dem eigenen Einkommen berechnet.','note'));
+ else box.append(make('p','Fernverkehr 2. Klasse: max. CHF 40/Tag, CHF 320/Monat, CHF 3’000/Jahr (Arbeitswerte).','note'));
+ if(p.ahv&&p.training)box.append(make('p','AHV- und Ausbildungsrabatt: Ob beide gleichzeitig beansprucht werden können, ist noch offen. Keine automatische Kumulation.','note'));
+ adultOut.append(box)
+ }
+ const childOut=$('childRows');childOut.replaceChildren();for(let i=0;i<kids.length;i++){let k=kids[i],box=make('div',undefined,'result-person');box.append(make('h4','Kind '+(i+1)+' ('+k.age+' Jahre)'),make('p',k.desc));childOut.append(box)}show('childResults',isFamily()&&kids.length>0);show('familyNotice',isFamily()&&kids.length>0);
+ if(freedVans>0){const note=make('p',freedVans+' Lieferwagen als überwiegend geschäftlich genutzt angegeben: deshalb mit CHF 0 berücksichtigt (vorläufige Befreiungsregel, Nachweis noch ungeklärt).','hint');adultOut.append(note)}
+ show('results',true);$('results').focus({preventScroll:true});$('results').scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+}
+document.querySelectorAll('input[type=radio]').forEach(el=>el.addEventListener('change',()=>{if(el.name==='resident'||el.name==='mode'||el.name==='heavy')refresh();else changeResults()}));
+$('adultCount').addEventListener('change',refresh);$('childCount').addEventListener('change',()=>{childBlocks();changeResults()});$('vehicleCount').addEventListener('change',()=>{vehicleBlocks();changeResults()});
+document.addEventListener('input',e=>{if(e.target.matches('input[type=number],input[type=checkbox],select'))changeResults()});
+$('form').addEventListener('submit',calc);refresh();
+</script>
+</body>
+</html>
